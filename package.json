@@ -2,7 +2,7 @@
   "name": "river",
   "version": "0.1.0",
   "private": true,
-  "homepage" : "http://qas612820704.github.io/river",
+  "homepage" : "http://rivers-dictionary.github.io",
   "babel": {
     "presets": [
       "@babel/preset-env"
@@ -35,7 +35,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build -b master -o rivers-dictionary.github.io"
   },
   "eslintConfig": {
     "extends": "react-app"

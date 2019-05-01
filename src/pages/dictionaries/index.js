@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useMappedState, useDispatch } from 'redux-react-hook';
-import { Router } from '@reach/router';
-import { navigate } from '../../lib/router';
+import { Router, navigate } from '@reach/router';
 import { map } from 'lodash';
 import { Input, Icon, Card, List } from 'antd';
 import  Dictionary from './dictionary';
