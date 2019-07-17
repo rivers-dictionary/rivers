@@ -1,0 +1,20 @@
+{
+  "name": "@rivers/cambridge-dictionary",
+  "version": "0.2.0",
+  "description": "Cambridge Dictionary",
+  "main": "lib/index.js",
+  "module": "src/index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/runtime": "^7.5.5",
+    "cheerio": "^1.0.0-rc.3",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5"
+  },
+  "scripts": {
+    "build": "babel --root-mode upward src -d lib --ignore '**/__tests__' ",
+    "watch": "yarn build --watch"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@rivers/server",
+  "version": "0.2.0",
+  "description": "Rivers Server",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@rivers/cambridge-dictionary": "0.2.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "devDependencies": {
+    "@babel/register": "^7.5.5"
+  }
+}

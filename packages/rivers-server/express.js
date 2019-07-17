@@ -1,8 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { fetchExplanationHTML, fetchAutoCompleteJson } from './cambridge-dictionary/api';
-import { parseExplanationHTML } from './cambridge-dictionary/parser';
-
+import { fetchExplanationHTML, fetchAutoCompleteJson, parseExplanationHTML } from '@rivers/cambridge-dictionary';
 const app = express();
 
 app.use(cors());
