@@ -9,7 +9,7 @@ import App from './App';
 import { restoreFromIndexedDB } from './redux/actions';
 import * as db from './db';
 import * as schema from './api/schema';
-import './index.css';
+import './index.scss';
 
 
 const devtool = (process.env.NODE_ENV === 'development' && typeof window === 'object')
