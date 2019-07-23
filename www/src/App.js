@@ -1,14 +1,23 @@
 import React, { useState, useCallback } from 'react';
 import { Router, Link, navigate } from '@reach/router';
+import WebFontLoader from 'webfontloader';
 import { Layout, Input, AutoComplete, Avatar, Menu, Icon } from 'antd';
 import Words from './pages/words';
 import Word from './pages/words/word';
 import Dictionaries from './pages/dictionaries';
+import Header from './components/Header';
+import Search from './components/Search';
 import { useDictionaries } from './redux/hooks';
 import { fetchAutoCompleteJson } from './api/cambridge';
 import './App.scss';
 
-const { Header ,Content, Sider } = Layout;
+WebFontLoader.load({
+  google: {
+    families: ['RobotoR:300,400,500,700', 'Material Icons'],
+  },
+});
+
+const { Header: H ,Content, Sider } = Layout;
 
 export default function App() {
   return (
@@ -34,7 +43,11 @@ function Main({ children }) {
   );
 
   return (
-    <Layout>
+    <>
+      <Header />
+      <div className="md-text-container">
+        <Search />
+      </div>
       <Sider className="sider" collapsible collapsedWidth="0">
         <div className="sider__brand">
           <Avatar className="sider__brand__avatar">R</Avatar>
@@ -60,7 +73,7 @@ function Main({ children }) {
         </Menu>
       </Sider>
       <Layout className='main'>
-        <Header className="header">
+        <H className="header">
           <AutoComplete
             className='header__search-bar'
             dataSource={suggestions}
@@ -72,14 +85,14 @@ function Main({ children }) {
               onSearch={handleSearch}
             />
           </AutoComplete>
-        </Header>
+        </H>
         <Content className='content__container'>
           <div className='content'>
             { children }
           </div>
         </Content>
       </Layout>
-    </Layout>
+    </>
   );
 }
 
