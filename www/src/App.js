@@ -33,8 +33,8 @@ function Index({ children }) {
       <Header />
       <div className="md-text-container">
         <Search />
-        { children }
       </div>
+      { children }
     </>
   );
 }

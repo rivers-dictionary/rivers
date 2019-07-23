@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import { Toolbar, Autocomplete, Button } from 'react-md';
 import { navigate } from '@reach/router';
+import cn from 'classnames';
 import useSuggestion from '../../hooks/useSuggestion';
 
-export default function Search() {
+export default function Search({ className }) {
   const [ word, setWord ] = useState('');
 
   const [ suggestions ] = useSuggestion(word);
@@ -42,7 +43,7 @@ export default function Search() {
 
   return (
     <Toolbar inset
-      className="md-paper--2"
+      className={cn("md-paper--2", className)}
       title={
         <Autocomplete toolbar block autoFocus
           id="search-bar"
