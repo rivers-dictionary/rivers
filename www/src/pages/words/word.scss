@@ -1,0 +1,39 @@
+@import '../../../_globals';
+
+.rivers-sticky-tabs.md-tabs {
+  position: sticky;
+  top: 0;
+  background: $md-white-base;
+  z-index: 1;
+}
+
+.rivers-guide-word-title {
+  &.md-card-title {
+    padding-bottom: 0;
+    color: $md-grey-800;
+
+    .md-card-title--title {
+      margin: 0;
+      color: inherit;
+    }
+
+    .md-icon {
+      color: inherit;
+    }
+  }
+
+  &__icon {
+    margin-right: $md-default-padding;
+  }
+}
+
+.rivers-defination-text {
+  &__chip.md-chip {
+    margin-right: $md-default-padding;
+    color: $md-secondary-background-text-color;
+    background: $md-secondary-color;
+    .md-chip-text {
+      color: inherit;
+    }
+  }
+}

@@ -1,86 +1,140 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
-import { map } from 'lodash';
-import { Avatar, Badge, Spin, Tabs, Icon, List, Typography, Skeleton, Menu, Checkbox, Dropdown } from 'antd';
+import { Avatar, Button, CircularProgress, Divider, Chip, FontIcon, ExpansionList, ExpansionPanel, Toolbar, IconSeparator } from 'react-md';
+import { Card, CardTitle, CardText } from 'react-md';
+import { List, ListItem } from 'react-md';
+import { TabsContainer, Tabs, Tab } from 'react-md';
+import { map, capitalize } from 'lodash';
+import { Badge, Icon, Typography, Menu, Checkbox, Dropdown } from 'antd';
 import {
   useWord, useDefination
 } from '../../redux/hooks';
 import { useMappedState, useDispatch } from 'redux-react-hook';
 import { toggleMappingDefinationToDictionary as reduxToggleMappingDefinationToDictionary } from '../../redux/actions';
 
-const { Title, Paragraph } = Typography;
-const { TabPane } = Tabs;
+import './word.scss'
+
+const { Paragraph } = Typography;
 
 export default function Word({ wordId }) {
   const { word } = useWord(wordId);
 
-  if (!word) {
+  if (!word || word.isFetching) {
     return  (
-      <Spin>
-        <Skeleton />
-      </Spin>
+      <CircularProgress id="word-cuircular-progress" />
     );
   }
 
   return (
-    <section style={{ margin: '16px 0' }}>
-      <Spin spinning={word.isFetching}>
-        <Title>{wordId}</Title>
-        <Tabs>
-        { word.explanations.map(explaination => (
-          <TabPane
-            tab={
-              <span>
-                <Avatar style={{ background: '#008dff', marginRight: 8 }}>{explaination.pos}</Avatar>
-                {explaination.pos}
-              </span>
-            }
-            key={explaination.pos}
+    <>
+      <Card>
+        <CardText>
+          <h1 className="md-text-center">{ capitalize(word.name) }</h1>
+        </CardText>
+        <TabsContainer>
+          <Tabs
+            className="rivers-sticky-tabs"
+            tabId="pos-tabs"
+            inactiveTabClassName="md-text--secondary"
           >
-          { renderExplaination(explaination) }
-          </TabPane>
-        ))}
-        </Tabs>
-      </Spin>
-    </section>
+            { word.explanations.map(explaination => (
+            <Tab
+              className="md-title"
+              key={explaination.pos}
+              label={explaination.pos}
+              icon={<FontIcon>public</FontIcon>}
+            >
+              <Explaination explaination={explaination} />
+            </Tab>
+            ))}
+          </Tabs>
+        </TabsContainer>
+      </Card>
+    </>
   );
 }
 
-function renderExplaination(explaination) {
+function Explaination({ explaination }) {
   return (
-    <div>
-      <Paragraph style={{ marginBottom: 16 }}>
-        <Icon type="notification" style={{marginRight: 16}} />
-        <IpaAction region="US" {...explaination.ipaUS} />
-        <IpaAction region="UK" {...explaination.ipaUK} />
-      </Paragraph>
-      <List
-        itemLayout="vertical"
-        dataSource={explaination.senses}
-        renderItem={renderSense}
-      />
-    </div>
-  )
+    <>
+      <List>
+        <IpaListItem
+          audioUrl={explaination.ipaUK.audioUrl}
+          primaryText={<span dangerouslySetInnerHTML={{ __html: `/${explaination.ipaUK.html}/` }}></span>}
+          secondaryText="UK"
+        />
+        <IpaListItem
+          audioUrl={explaination.ipaUS.audioUrl}
+          primaryText={<span dangerouslySetInnerHTML={{ __html: `/${explaination.ipaUS.html}/` }}></span>}
+          secondaryText="US"
+        />
+      </List>
+      <Divider />
+      { explaination.senses.map(sense => (
+        <Sense
+          key={sense.guideWord}
+          sense={sense}
+        />
+      ))}
+    </>
+  );
 }
 
-function renderSense(sense) {
+function Sense({ sense }) {
   return (
-    <List.Item>
-      { sense.guideWord &&
-        <Title level={4}>
-          <Icon type="radar-chart" style={{ marginRight: 8 }} />
-          {sense.guideWord}
-        </Title>
-      }
-      <List bordered
-        itemLayout="vertical"
-        dataSource={sense.definations}
-        renderItem={definationId => <Defination definationId={definationId}/>}
-      />
-    </List.Item>
-  )
+    <>
+      { sense.guideWord && (
+        <CardTitle
+          title={[
+            <FontIcon className="rivers-guide-word-title__icon">label</FontIcon>,
+            sense.guideWord,
+          ]}
+        />
+      )}
+      { sense.definations.map(definationId => (
+        <Defination
+          key={definationId}
+          definationId={definationId}
+        />
+      ))}
+    </>
+  );
 }
 
 export function Defination({ definationId }) {
+  const { defination } = useDefination(definationId);
+
+  return (
+    <>
+      <CardText
+        className="rivers-defination-text"
+      >
+        <div className="md-grid">
+          <div className="md-cell md-cell--1">
+          { defination.level && (
+            <Chip
+              className="rivers-defination-text__chip"
+              label={defination.level}
+              labelClassName="md-font-bold"
+            />
+          )}
+          </div>
+          <div className="md-cell md-cell--11 rivers-defination-text__title-block">
+            <h4 className="md-font-bold">{ defination.text }</h4>
+            <p className="md-text--theme-primary md-font-bold">{ defination.translate }</p>
+            { defination.examples.map(example => (
+            <>
+              <p>{example.text}</p>
+              <p className="md-text--theme-primary">{example.translate}</p>
+            </>
+          ))}
+          </div>
+        </div>
+      </CardText>
+    </>
+  );
+}
+
+export function _Defination({ definationId }) {
   const { defination } = useDefination(definationId);
 
   const [dropdownVisibility, setDropdownVisibility] = useState(false);
@@ -157,7 +211,8 @@ function renderExample(example) {
   )
 }
 
-function IpaAction({ region, html, audioUrl }) {
+
+function IpaButton({ audioUrl }) {
   const [ isPlaying, setPlaying ] = useState(false);
 
   const audio = useMemo(() => new Audio(audioUrl), [audioUrl]);
@@ -169,7 +224,7 @@ function IpaAction({ region, html, audioUrl }) {
   }, [audio]);
 
 
-  const handleTextClick = useCallback(
+  const handleClick = useCallback(
     () => {
       setPlaying(true);
       audio.play();
@@ -178,12 +233,40 @@ function IpaAction({ region, html, audioUrl }) {
   );
 
   return (
-    <span
-      style={{ marginRight: 16, cursor: 'pointer' }}
-      onClick={handleTextClick}
+    <Button floating
+      onClick={handleClick}
     >
-      <Avatar style={{marginRight: 8, background: isPlaying ? '#fa8c16' : '' }}>{region}</Avatar>
-      /<span dangerouslySetInnerHTML={{ __html: html }}/>/
-    </span>
+    { isPlaying ? 'volume_up' : 'volume_down' }
+    </Button>
   )
+}
+
+function IpaListItem({ audioUrl, ...props }) {
+  const [ isPlaying, setPlaying ] = useState(false);
+
+  const audio = useMemo(() => new Audio(audioUrl), [audioUrl]);
+
+  useEffect(() => {
+    audio.addEventListener('ended', () => {
+      setPlaying(false);
+    });
+  }, [audio]);
+
+
+  const handleClick = useCallback(
+    () => {
+      setPlaying(true);
+      audio.currentTime = 0;
+      audio.play();
+    },
+    [audio],
+  );
+
+  return (
+    <ListItem
+      onClick={handleClick}
+      leftAvatar={<Avatar suffix='white' icon={<FontIcon>{ isPlaying ? 'volume_up' : 'volume_down' }</FontIcon>} className="md-paper md-paper--2"></Avatar>}
+      {...props}
+    />
+  );
 }
