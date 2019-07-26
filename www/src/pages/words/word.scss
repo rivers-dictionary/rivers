@@ -36,4 +36,8 @@
       color: inherit;
     }
   }
+  &__chip.md-chip--hover.md-chip--hover {
+    background: $md-secondary-color;
+  }
+
 }
