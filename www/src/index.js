@@ -9,8 +9,9 @@ import App from './App';
 import { restoreFromIndexedDB } from './redux/actions';
 import * as db from './db';
 import * as schema from './api/schema';
+import { Auth0Provider } from './components/Auth';
+import { AUTH0 } from './config';
 import './index.scss';
-
 
 const devtool = (process.env.NODE_ENV === 'development' && typeof window === 'object')
   && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -26,9 +27,28 @@ const store = createStore(reducer, devtool(
 
 store.dispatch(restoreFromIndexedDB());
 
+// A function that routes the user to the right place
+// after login
+const onRedirectCallback = appState => {
+  window.history.replaceState(
+    {},
+    document.title,
+    appState && appState.targetUrl
+      ? appState.targetUrl
+      : window.location.pathname
+  );
+};
+
 render(
   <StoreContext.Provider value={store}>
-    <App />
+    <Auth0Provider
+      domain={AUTH0.domain}
+      client_id={AUTH0.clientId}
+      redirect_uri={window.location.origin}
+      onRedirectCallback={onRedirectCallback}
+    >
+      <App />
+    </Auth0Provider>
   </StoreContext.Provider>,
   document.getElementById('root')
 );

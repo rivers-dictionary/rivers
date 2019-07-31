@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
-import { navigate } from '@reach/router';
-import { Toolbar, Button } from 'react-md';
+import { Avatar, Toolbar, Button, CircularProgress } from 'react-md';
 
 import AddDictionaryDialog from '../Dialog/AddDictionary';
+import { useAuth0 } from '../Auth';
 import './index.scss';
 
 export default function Header() {
@@ -29,7 +29,7 @@ export default function Header() {
         }
         actions={[
           <Button icon onClick={handleToolbarActionAddClick}>add</Button>,
-          <Button icon onClick={() => navigate('/dictionaries')}>person</Button>
+          <AuthButton />
         ]}
       />
       <AddDictionaryDialog
@@ -38,4 +38,38 @@ export default function Header() {
       />
     </>
   );
+}
+
+function AuthButton({ className }) {
+  const { loading, user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
+
+
+  if (!isAuthenticated) {
+    return (
+      <Button icon
+        className={className}
+        onClick={() => loginWithRedirect()}
+      >
+        person
+      </Button>
+    )
+  }
+
+  if (loading || !user) {
+    return (
+      <CircularProgress
+        id="auth-btn-circular-progress"
+        className={className}
+      />
+    )
+  }
+
+  return (
+    <Avatar
+      className={className}
+      src={user.picture}
+      onClick={() => logout()}
+      role="presentation"
+    />
+  )
 }
