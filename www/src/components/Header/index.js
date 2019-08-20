@@ -41,14 +41,14 @@ export default function Header() {
 }
 
 function AuthButton({ className }) {
-  const { loading, user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const { loading, user, isAuthenticated, loginWithPopup, logout } = useAuth0();
 
 
   if (!isAuthenticated) {
     return (
       <Button icon
         className={className}
-        onClick={() => loginWithRedirect()}
+        onClick={() => loginWithPopup()}
       >
         person
       </Button>

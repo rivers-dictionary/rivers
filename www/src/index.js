@@ -10,7 +10,7 @@ import { restoreFromIndexedDB } from './redux/actions';
 import * as db from './db';
 import * as schema from './api/schema';
 import { Auth0Provider } from './components/Auth';
-import { AUTH0 } from './config';
+import { AUTH0 } from '@rivers/shared';
 import './index.scss';
 
 const devtool = (process.env.NODE_ENV === 'development' && typeof window === 'object')
@@ -44,6 +44,7 @@ render(
     <Auth0Provider
       domain={AUTH0.domain}
       client_id={AUTH0.clientId}
+      audience={AUTH0.audience}
       redirect_uri={window.location.origin}
       onRedirectCallback={onRedirectCallback}
     >

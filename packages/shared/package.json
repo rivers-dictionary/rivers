@@ -1,0 +1,18 @@
+{
+  "name": "@rivers/shared",
+  "version": "0.2.0",
+  "description": "Rivers Shared",
+  "main": "lib/index.js",
+  "module": "src/index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/runtime": "^7.5.5"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5"
+  },
+  "scripts": {
+    "build": "babel --root-mode upward src -d lib --ignore '**/__tests__' ",
+    "watch": "yarn build --watch"
+  }
+}

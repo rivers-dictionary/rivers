@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "http://rivers-dictionary.github.io",
+  "proxy": "http://localhost:9527",
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.1.1",
     "@reach/router": "^1.2.1",

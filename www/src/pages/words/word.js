@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
-import { Avatar, Button, CircularProgress, Divider, Chip, FontIcon, ExpansionList, ExpansionPanel, Toolbar, IconSeparator } from 'react-md';
+import { Avatar, CircularProgress, Divider, Chip, FontIcon } from 'react-md';
 import { Card, CardTitle, CardText } from 'react-md';
 import { List, ListItem } from 'react-md';
 import { TabsContainer, Tabs, Tab } from 'react-md';
@@ -121,11 +121,11 @@ export function Defination({ definationId }) {
           <div className="md-cell md-cell--11 rivers-defination-text__title-block">
             <h4 className="md-font-bold">{ defination.text }</h4>
             <p className="md-text--theme-primary md-font-bold">{ defination.translate }</p>
-            { defination.examples.map(example => (
-            <>
-              <p>{example.text}</p>
-              <p className="md-text--theme-primary">{example.translate}</p>
-            </>
+            { defination.examples.map((example, i) => (
+              <div key={i}>
+                <p>{example.text}</p>
+                <p className="md-text--theme-primary">{example.translate}</p>
+              </div>
           ))}
           </div>
         </div>
@@ -208,36 +208,6 @@ function renderExample(example) {
       <Paragraph>{example.text}</Paragraph>
       <Paragraph style={{ color: '#40a9ff' }}>{example.translate}</Paragraph>
     </List.Item>
-  )
-}
-
-
-function IpaButton({ audioUrl }) {
-  const [ isPlaying, setPlaying ] = useState(false);
-
-  const audio = useMemo(() => new Audio(audioUrl), [audioUrl]);
-
-  useEffect(() => {
-    audio.addEventListener('ended', () => {
-      setPlaying(false);
-    });
-  }, [audio]);
-
-
-  const handleClick = useCallback(
-    () => {
-      setPlaying(true);
-      audio.play();
-    },
-    [audio],
-  );
-
-  return (
-    <Button floating
-      onClick={handleClick}
-    >
-    { isPlaying ? 'volume_up' : 'volume_down' }
-    </Button>
   )
 }
 
