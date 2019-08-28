@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import reducer from './redux/reducer';
 import * as serviceWorker from './serviceWorker';
 import App from './App';
-import { restoreFromIndexedDB } from './redux/actions';
+import { restoreFromIndexedDB, restoreAuth } from './redux/actions';
 import * as db from './db';
 import * as schema from './api/schema';
 import { Auth0Provider } from './components/Auth';
@@ -26,6 +26,7 @@ const store = createStore(reducer, devtool(
 ));
 
 store.dispatch(restoreFromIndexedDB());
+store.dispatch(restoreAuth());
 
 // A function that routes the user to the right place
 // after login

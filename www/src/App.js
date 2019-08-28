@@ -8,6 +8,7 @@ import Header from './components/Header';
 import Search from './components/Search';
 import { useAuth0 } from './components/Auth';
 import './App.scss';
+import Callback from './pages/callback';
 
 WebFontLoader.load({
   google: {
@@ -24,6 +25,7 @@ export default function App() {
         </Words>
         <Dictionaries path="dictionaries/*" />
       </Index>
+      <Callback path="callback" />
     </Router>
   );
 };

@@ -2,6 +2,7 @@ import { mapKeys } from 'lodash';
 import { ADD_ENTITIES, RESTORE_FROM_INDEXEDDB } from './constants';
 export * from './words/actions';
 export * from './dictionaries/actions';
+export * from './auth';
 
 export function addEntities(entities, result) {
   return {

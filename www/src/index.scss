@@ -2,7 +2,7 @@
 
 @include react-md-everything;
 
-html, body, #root {
+html, body, #root, div[role="group"][tabindex] {
   width: 100%;
   height: 100%;
 
