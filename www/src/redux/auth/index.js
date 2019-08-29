@@ -1,8 +1,9 @@
 import { parse } from 'cookie';
 import { authentication } from '../../lib/auth0';
+import jwt from 'jsonwebtoken';
 
 export const SET_AUTH = 'SET_AUTH';
-
+export const CLEAR_AUTH = 'CLEAR_AUTH';
 const auth = (state = {}, action) => {
   switch (action.type) {
     case SET_AUTH:
@@ -10,6 +11,8 @@ const auth = (state = {}, action) => {
         ...state,
         ...action.payload,
       };
+    case CLEAR_AUTH:
+      return {};
     default:
       return state;
   }
@@ -28,6 +31,10 @@ export function setAuth(auth = {}) {
     if (auth.accessToken && auth.expiresIn) {
       document.cookie = `riversAcessToken=${auth.accessToken};`
         + `max-age=${auth.expiresIn}`;
+
+      setTimeout(() => {
+        dispatch({ type: CLEAR_AUTH });
+      }, auth.expiresIn * 1000);
     }
 
     return dispatch({
@@ -46,8 +53,14 @@ export function restoreAuth() {
 
     if (!accessToken) return;
 
+    const nowSecond = Math.floor(Date.now() / 1000);
+    const expiresIn = jwt.decode(accessToken).exp - nowSecond;
+
+    if (expiresIn < 0) return;
+
     dispatch(setAuth({
       accessToken,
+      expiresIn,
     }));
 
     authentication.userInfo(accessToken, (err, userInfo) => {
@@ -56,7 +69,7 @@ export function restoreAuth() {
       dispatch(setAuth({
         user: userInfo
       }));
-    })
+    });
 
   }
 }
