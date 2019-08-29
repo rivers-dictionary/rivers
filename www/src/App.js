@@ -6,7 +6,6 @@ import Word from './pages/words/word';
 import Dictionaries from './pages/dictionaries';
 import Header from './components/Header';
 import Search from './components/Search';
-import { useAuth0 } from './components/Auth';
 import './App.scss';
 import Callback from './pages/callback';
 
@@ -31,29 +30,12 @@ export default function App() {
 };
 
 function Index({ children }) {
-
-  const { getTokenSilently } = useAuth0();
-  const onClick = async () => {
-    const token = await getTokenSilently();
-
-    const response = await fetch('/api/ping', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }
-    });
-
-    const data = await response.json();
-
-    console.log(data);
-  };
-
   return (
     <>
       <Header />
       <div className="md-text-container">
         <Search />
       </div>
-      <button onClick={onClick}>API</button>
       { children }
     </>
   );
