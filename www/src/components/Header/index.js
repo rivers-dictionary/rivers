@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Avatar, Toolbar, Button } from 'react-md';
-import { useDispatch, useMappedState } from 'redux-react-hook';
+import { useDispatch, useSelector } from 'react-redux';
 
 import AddDictionaryDialog from '../Dialog/AddDictionary';
 import { authorizeWithPopup } from '../../lib/auth0';
@@ -43,12 +43,7 @@ export default function Header() {
 }
 
 function AuthButton({ className }) {
-  const user = useMappedState(
-    useCallback(
-      state => state.auth.user,
-      [],
-    )
-  );
+  const user = useSelector(state => state.auth.user);
 
   const dispatch = useDispatch();
 

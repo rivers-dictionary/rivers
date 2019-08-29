@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { createStore, compose, applyMiddleware } from 'redux';
-import { StoreContext } from 'redux-react-hook';
+import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import reducer from './redux/reducer';
 import * as serviceWorker from './serviceWorker';
@@ -41,7 +41,7 @@ const onRedirectCallback = appState => {
 };
 
 render(
-  <StoreContext.Provider value={store}>
+  <Provider store={store}>
     <Auth0Provider
       domain={AUTH0.domain}
       client_id={AUTH0.clientId}
@@ -51,7 +51,7 @@ render(
     >
       <App />
     </Auth0Provider>
-  </StoreContext.Provider>,
+  </Provider>,
   document.getElementById('root')
 );
 

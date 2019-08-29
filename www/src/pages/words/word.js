@@ -8,7 +8,7 @@ import { Badge, Icon, Typography, Menu, Checkbox, Dropdown } from 'antd';
 import {
   useWord, useDefination
 } from '../../redux/hooks';
-import { useMappedState, useDispatch } from 'redux-react-hook';
+import { useSelector, useDispatch } from 'react-redux';
 import { toggleMappingDefinationToDictionary as reduxToggleMappingDefinationToDictionary } from '../../redux/actions';
 
 import './word.scss'
@@ -139,10 +139,7 @@ export function _Defination({ definationId }) {
 
   const [dropdownVisibility, setDropdownVisibility] = useState(false);
 
-  const dictionaries = useMappedState(
-    state => map(state.dictionaries),
-    [],
-  );
+  const dictionaries = useSelector(state => map(state.dictionaries));
 
   const dispatch = useDispatch();
   const toggleMappingDefinationToDictionary = useCallback(

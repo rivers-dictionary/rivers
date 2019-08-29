@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useMappedState, useDispatch } from 'redux-react-hook';
+import { useSelector, useDispatch } from 'react-redux';
 import { Avatar, Button, List, ListItem, Subheader } from 'react-md';
 import { Router, navigate } from '@reach/router';
 import { map } from 'lodash';
@@ -20,10 +20,7 @@ export default function Dictionaries() {
 function DictionaryIndex() {
   const dispatch = useDispatch();
 
-  const dictionaries = useMappedState(
-    state => map(state.dictionaries),
-    [],
-  );
+  const dictionaries = useSelector(state => map(state.dictionaries));
 
   const handleItemClick = useCallback(
     name => navigate(`/dictionaries/${name}`),

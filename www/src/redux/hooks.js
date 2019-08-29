@@ -1,16 +1,12 @@
-import { useEffect, useCallback } from 'react';
-import { useMappedState, useDispatch } from 'redux-react-hook';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { map } from 'lodash';
 import { getWord, increaseWordSearchCount } from './actions';
 
 export function useWord(wordId) {
-  const word = useMappedState(
-    useCallback(
-      state => state.words[wordId],
-      [wordId],
-    ),
-  );
   const dispatch = useDispatch();
+
+  const word = useSelector(state => state.words[wordId]);
 
   useEffect(
     () => { increaseWordSearchCount(wordId) },
@@ -27,16 +23,7 @@ export function useWord(wordId) {
 }
 
 export function useDefination(definationId) {
-  const defination = useMappedState(
-    useCallback(
-      state => {
-        const defination = state.definations[definationId];
-
-        return defination;
-      },
-      [definationId],
-    ),
-  );
+  const defination = useSelector(state => state.definations[definationId]);
 
   return {
     defination,
@@ -44,12 +31,7 @@ export function useDefination(definationId) {
 }
 
 export function useDictionaries() {
-  const dictionaries = useMappedState(
-    useCallback(
-      state => state.dictionaries,
-      [],
-    ),
-  );
+  const dictionaries = useSelector(state => state.dictionaries);
 
   return {
     dictionaries: map(dictionaries),
@@ -57,12 +39,7 @@ export function useDictionaries() {
 }
 
 export function useDictionary(dictionaryId) {
-  const dictionary = useMappedState(
-    useCallback(
-      state => state.dictionaries[dictionaryId],
-      [dictionaryId],
-    ),
-  );
+  const dictionary = useSelector(state => state.dictionaries[dictionaryId]);
 
   return {
     dictionary,

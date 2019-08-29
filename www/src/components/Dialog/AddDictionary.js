@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { navigate } from '@reach/router';
-import { useDispatch } from 'redux-react-hook';
+import { useDispatch } from 'react-redux';
 import { DialogContainer, Button, TextField } from 'react-md';
 
 import { addDictionary as reduxAddDictionary } from '../../redux/actions';

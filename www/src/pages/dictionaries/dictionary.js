@@ -1,26 +1,21 @@
-import React, { useCallback } from 'react';
-import { useMappedState } from 'redux-react-hook';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from '@reach/router';
 import { List, Card, Badge, Spin } from 'antd';
 
 export default function Dictionary({ dictionaryId }) {
-  const dictionary = useMappedState(
-    useCallback(
-      state => {
-        const dictionary = state.dictionaries[dictionaryId];
+  const dictionary = useSelector(state => {
+    const dictionary = state.dictionaries[dictionaryId];
 
-        if (!dictionary) return undefined;
+    if (!dictionary) return undefined;
 
-        return {
-          ...dictionary,
-          definations: dictionary.definations.map(
-            defId => state.definations[defId],
-          )
-        }
-      },
-      [dictionaryId],
-    ),
-  );
+    return {
+      ...dictionary,
+      definations: dictionary.definations.map(
+        defId => state.definations[defId],
+      )
+    }
+  });
 
   if (!dictionary)
       return (
