@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchAutoCompleteJson } from '../api/cambridge';
+import { fetchAutoCompleteJson } from '../apis/cambridge';
 
 export default function useSuggestion(word) {
   const [ suggestions, setSuggestion ] = useState([]);

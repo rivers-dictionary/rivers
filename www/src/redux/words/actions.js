@@ -1,7 +1,7 @@
 import { normalize } from 'normalizr';
 import * as $ from './constants';
 import { addEntities } from '../actions';
-import { fetchWord } from '../../api/cambridge';
+import { fetchWord } from '../../apis/cambridge';
 
 export function getWord(id) {
   return async (dispatch, getState, { schema }) => {

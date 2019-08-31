@@ -8,8 +8,9 @@ import * as serviceWorker from './serviceWorker';
 import App from './App';
 import { restoreFromIndexedDB, restoreAuth } from './redux/actions';
 import * as db from './db';
-import * as schema from './api/schema';
+import * as schema from './apis/schema';
 import './index.scss';
+import { updateAccessToken } from './apis/axios';
 
 const devtool = (process.env.NODE_ENV === 'development' && typeof window === 'object')
   && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -25,6 +26,14 @@ const store = createStore(reducer, devtool(
 
 store.dispatch(restoreFromIndexedDB());
 store.dispatch(restoreAuth());
+
+store.subscribe(() => {
+  const accessToken = store.getState().auth.accessToken;
+
+  if (!accessToken) return;
+
+  updateAccessToken(accessToken);
+});
 
 render(
   <Provider store={store}>
